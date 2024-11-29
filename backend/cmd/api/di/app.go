@@ -1,8 +1,12 @@
 package di
 
 import (
-	"backend/internal/routes"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	"backend/cmd/api/docs"
+	"backend/internal/routes"
 )
 
 type IPillar interface {
@@ -18,6 +22,9 @@ func (p *Pillar) RunApp() error {
 	p.app.Use(gin.Recovery())
 	p.app.Use(gin.Logger())
 	p.route.InitializedRouter(p.app)
+
+	docs.SwaggerInfo.BasePath = "/"
+	p.app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return p.app.Run(":8000")
 }

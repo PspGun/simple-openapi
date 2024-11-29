@@ -1,9 +1,10 @@
 package controller
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"backend/internal/controller/dtos"
 	"backend/internal/service"
-	"github.com/gin-gonic/gin"
 )
 
 type IAuthController interface {
@@ -23,6 +24,14 @@ func ProvideAuthController(authService service.IAuthService, tokenService servic
 	}
 }
 
+// @Summary Login
+// @Description Login
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param loginRequest body dtos.LoginRequest true "LoginRequest"
+// @Success 200 {object} dtos.LoginResponse
+// @Router /auth/login [post]
 func (a AuthController) Login(ctx *gin.Context) {
 	var loginRequest dtos.LoginRequest
 	err := ctx.ShouldBindBodyWithJSON(&loginRequest)
@@ -52,6 +61,14 @@ func (a AuthController) Login(ctx *gin.Context) {
 	ctx.JSON(200, res)
 }
 
+// @Summary Register
+// @Description Register
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param registerRequest body dtos.RegisterRequest true "RegisterRequest"
+// @Success 200 {object} dtos.LoginResponse
+// @Router /auth/register [post]
 func (a AuthController) Register(ctx *gin.Context) {
 	var registerRequest dtos.RegisterRequest
 	err := ctx.ShouldBindBodyWithJSON(&registerRequest)
